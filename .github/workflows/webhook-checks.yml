@@ -40,13 +40,13 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: 3.12
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: webhook/env
           key: ${{ runner.os }}-lint-${{ hashFiles('webhook/requirements.txt', 'webhook/requirements-test.txt') }}
@@ -90,8 +90,10 @@ jobs:
       contents: read   # This is required for actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: hashicorp/setup-terraform@v3
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v4
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
@@ -106,7 +108,7 @@ jobs:
           service_account: github-actions@jss-22p1-test.iam.gserviceaccount.com
 
       - name: Cache dependencies
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: webhook/env
           key: ${{ runner.os }}-check-${{ hashFiles('webhook/requirements.txt', 'webhook/requirements-test.txt') }}
